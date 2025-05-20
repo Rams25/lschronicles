@@ -1,1 +1,6 @@
-
+{
+    "version": "1.0.0",
+    "files": [
+        "https://raw.githubusercontent.com/Rams25/lschronicles/main/lschronicles/aObjects.lua"
+    ]
+}
