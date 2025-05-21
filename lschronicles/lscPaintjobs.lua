@@ -98,10 +98,16 @@ function M.start()
 
                 if not doesFileExist(full_path) then
                     LSChronicles.log("[aPaintjobs] Téléchargement : " .. filename)
-                    local res = requests.get(textureUrl)
+                    local res = requests.get(textureUrl, {
+                        headers = {
+                            ["User-Agent"] = "Mozilla/5.0 (MoonLoader Paintjob Client)"
+                        }
+                    })
+                    print(string.format("[aPaintjobs] HTTP %s | Taille reçue : %s", tostring(res.status_code), #res.text))
+
                     if res.status_code == 200 then
                         local file = io.open(full_path, "wb")
-                        file:write(res.content)
+                        file:write(res.text or "")
                         file:close()
                     else
                         sampAddChatMessage("[Paintjob] Erreur HTTP: " .. res.status_code, 0xFF0000)
