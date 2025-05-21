@@ -62,8 +62,7 @@ function M.start()
             local vehicleId = bs:readUInt16()
             local textureUrl = bs:readString32()
     
-            print("vehicleId: " .. vehicleId)
-            print("textureUrl: " .. textureUrl)
+            print(string.format("vehicleId : %d - url : %s", vehicleId, tostring(textureUrl)))
     
             lua_thread.create(function()
                 local car = storeCarByVehicleId(vehicleId)
