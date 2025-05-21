@@ -59,7 +59,7 @@ function M.start()
         if id == 225 then
             print ("rpc id 225 reçu")
             local vehicleId = bs:readUInt16()
-            local textureUrl = bs:readString8()
+            local textureUrl = bs:readString32()
             print ("vehicleId " .. vehicleId)
             print ("textureUrl " .. textureUrl)
 
