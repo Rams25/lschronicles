@@ -58,19 +58,29 @@ function M.start()
     RakLua.registerHandler(RakLuaEvents.INCOMING_RPC, function(id, bs)
         if id == 225 then
             print("[aPaintjobs] RPC 225 reçu")
-
-            local ok, vehicleId, textureUrl = pcall(function()
+    
+            local ok, vehicleId, textureUrl = false, -1, ""
+    
+            local success, err = pcall(function()
                 local vid = bs:readUInt16()
+                print("[aPaintjobs] vehicleId lu : " .. tostring(vid))
+                
                 local len = bs:readInt32()
+                print("[aPaintjobs] longueur URL : " .. tostring(len))
+                
                 local url = bs:readString(len)
-                return vid, url
+                print("[aPaintjobs] url lue : " .. url)
+    
+                vehicleId = vid
+                textureUrl = url
+                ok = true
             end)
-
+    
             if not ok then
-                print("[aPaintjobs] Erreur BitStream : " .. tostring(textureUrl))
+                print("[aPaintjobs] Erreur BitStream : " .. tostring(err))
                 return
             end
-
+    
             print(string.format("vehicleId : %d - url : %s", vehicleId, textureUrl))
 
             lua_thread.create(function()
