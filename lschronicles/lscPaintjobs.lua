@@ -56,7 +56,7 @@ function M.start()
     LSChronicles.log("[aPaintjobs] Initialisation...")
 
     RakLua.registerHandler(RakLuaEvents.INCOMING_RPC, function(id, bs)
-        if id == 222 then
+        if id == 225 then
             local vehicleId = bs:readUInt16()
             local textureUrl = bs:readString8()
 
