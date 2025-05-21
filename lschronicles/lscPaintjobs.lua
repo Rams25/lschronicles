@@ -57,11 +57,15 @@ function M.start()
 
     RakLua.registerHandler(RakLuaEvents.INCOMING_RPC, function(id, bs)
         if id == 225 then
+            print ("rpc id 225 reçu")
             local vehicleId = bs:readUInt16()
             local textureUrl = bs:readString8()
+            print ("vehicleId " .. vehicleId)
+            print ("textureUrl " .. textureUrl)
 
             lua_thread.create(function()
                 local car = storeCarByVehicleId(vehicleId)
+                print ("car " .. car)
                 if not doesVehicleExist(car) then return end
 
                 local filename = textureUrl:match("([^/]+)$")
