@@ -57,38 +57,39 @@ function M.start()
 
     RakLua.registerHandler(RakLuaEvents.INCOMING_RPC, function(id, bs)
         if id == 225 then
-            print ("rpc id 225 reçu")
+            print("[aPaintjobs] RPC 225 reçu")
+    
             local vehicleId = bs:readUInt16()
             local textureUrl = bs:readString32()
-            print ("vehicleId " .. vehicleId)
-            print ("textureUrl " .. textureUrl)
-
+    
+            print("vehicleId: " .. vehicleId)
+            print("textureUrl: " .. textureUrl)
+    
             lua_thread.create(function()
                 local car = storeCarByVehicleId(vehicleId)
-                print ("car " .. car)
+                print("car: " .. car)
                 if not doesVehicleExist(car) then return end
-
+    
                 local filename = textureUrl:match("([^/]+)$")
                 local full_path = dl_dir .. filename
-
+    
                 if not doesFileExist(full_path) then
-                    LSChronicles.log("[aPaintjobs] Téléchargement : " .. filename)
+                    LSChronicles.log("[aPaintjobs] Téléchargement de " .. filename)
                     local res = requests.get(textureUrl)
                     if res.status_code == 200 then
                         local file = io.open(full_path, "wb")
                         file:write(res.content)
                         file:close()
-                        LSChronicles.log("[aPaintjobs] Téléchargé : " .. filename)
                     else
                         sampAddChatMessage("[Paintjob] Erreur HTTP: " .. res.status_code, 0xFF0000)
                         return
                     end
                 end
-
+    
                 if not downloaded_textures[filename] then
                     downloaded_textures[filename] = mad.load_png_texture(full_path)
                 end
-
+    
                 if downloaded_textures[filename] then
                     apply_paintjob(car, full_path)
                 else
@@ -97,6 +98,7 @@ function M.start()
             end)
         end
     end)
+
 end
 
 return M
