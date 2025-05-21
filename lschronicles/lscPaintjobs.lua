@@ -58,6 +58,13 @@ function M.start()
     RakLua.registerHandler(RakLuaEvents.INCOMING_RPC, function(id, bs)
         if id == 225 then
             print("[aPaintjobs] RPC 225 reçu")
+            if not RakLuaBitStream.readString32 then
+                function RakLuaBitStream.readString32(self)
+                    local len = self:readUInt32()
+                    return self:readString(len)
+                end
+            end
+
             print("[aPaintjobs] bitstream length = " .. tostring(bs:getNumberOfBytesUsed()))
             print("RakLuaBitStream.readString32 type: " .. type(bs.readString32))
             local ok, vehicleId, textureUrl_or_err = pcall(function()
