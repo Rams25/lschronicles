@@ -58,23 +58,40 @@ function M.start()
     RakLua.registerHandler(RakLuaEvents.INCOMING_RPC, function(id, bs)
         if id == 225 then
             print("[aPaintjobs] RPC 225 reçu")
-            local vid = bs:readUInt16()
-            local textLen = bs:readInt32()
-            local textureUrl = bs:readString(textLen)
-            
+
+            local ok, vehicleId, textureUrl = pcall(function()
+                local vid = bs:readUInt16()
+                local len = bs:readInt32()
+                local url = bs:readString(len)
+                return vid, url
+            end)
+
+            if not ok then
+                print("[aPaintjobs] Erreur BitStream : " .. tostring(textureUrl))
+                return
+            end
+
             print(string.format("vehicleId : %d - url : %s", vehicleId, textureUrl))
 
-    
             lua_thread.create(function()
-                local car = storeCarByVehicleId(vehicleId)
-                print("car: " .. car)
-                if not doesVehicleExist(car) then return end
-    
+                local timeout = 0
+                local car
+                repeat
+                    car = storeCarByVehicleId(vehicleId)
+                    wait(100)
+                    timeout = timeout + 1
+                until doesVehicleExist(car) or timeout > 50
+
+                if not doesVehicleExist(car) then
+                    print("[aPaintjobs] Véhicule introuvable")
+                    return
+                end
+
                 local filename = textureUrl:match("([^/]+)$")
                 local full_path = dl_dir .. filename
-    
+
                 if not doesFileExist(full_path) then
-                    LSChronicles.log("[aPaintjobs] Téléchargement de " .. filename)
+                    LSChronicles.log("[aPaintjobs] Téléchargement : " .. filename)
                     local res = requests.get(textureUrl)
                     if res.status_code == 200 then
                         local file = io.open(full_path, "wb")
@@ -85,11 +102,11 @@ function M.start()
                         return
                     end
                 end
-    
+
                 if not downloaded_textures[filename] then
                     downloaded_textures[filename] = mad.load_png_texture(full_path)
                 end
-    
+
                 if downloaded_textures[filename] then
                     apply_paintjob(car, full_path)
                 else
@@ -98,7 +115,6 @@ function M.start()
             end)
         end
     end)
-
 end
 
 return M
