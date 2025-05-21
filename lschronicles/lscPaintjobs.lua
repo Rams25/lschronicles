@@ -59,10 +59,18 @@ function M.start()
         if id == 225 then
             print("[aPaintjobs] RPC 225 reçu")
     
-            local vehicleId = bs:readUInt16()
-            local textureUrl = bs:readString32()
+            local ok, vehicleId, textureUrl = pcall(function()
+                local vid = bs:readUInt16()
+                local url = bs:readString32()
+                return vid, url
+            end)
     
-            print(string.format("vehicleId : %d - url : %s", vehicleId, tostring(textureUrl)))
+            if not ok then
+                print("[aPaintjobs] Erreur lors de la lecture du BitStream (corrompu ?)")
+                return
+            end
+    
+            print(string.format("vehicleId : %d - url : %s", vehicleId, textureUrl))
     
             lua_thread.create(function()
                 local car = storeCarByVehicleId(vehicleId)
