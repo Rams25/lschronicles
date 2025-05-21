@@ -61,7 +61,7 @@ function M.start()
     
             local ok, vehicleId, textureUrl = pcall(function()
                 local vid = bs:readUInt16()
-                local url = bs:readString32()
+                local url = bs:readString8()
                 return vid, url
             end)
     
