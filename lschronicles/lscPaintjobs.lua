@@ -86,13 +86,7 @@ function M.start()
             lua_thread.create(function()
                 print("[aPaintjobs] Lancement du thread pour vehicleId " .. vehicleId)
                 local timeout = 0
-                local car
-                repeat
-                    car = storeCarByVehicleId(vehicleId)
-                    print("[aPaintjobs] Tentative de récupération du véhicule, handle: " .. tostring(car))
-                    wait(100)
-                    timeout = timeout + 1
-                until doesVehicleExist(car) or timeout > 50
+                local result, car = sampGetCarHandleBySampVehicleId(vehicleId)
             
                 if not doesVehicleExist(car) then
                     print("[aPaintjobs] Véhicule introuvable (pas encore spawn ?)")
