@@ -1,0 +1,69 @@
+{
+  "Audio": {
+    "name": "Audio",
+    "version": "1.0.0",
+    "description": "Module de gestion audio avec sons personnalisés",
+    "author": "LSChronicles Team",
+    "download_url": "https://raw.githubusercontent.com/username/repo/main/moonloader/lschronicles/Audio.lua",
+    "dependencies": [
+      {
+        "name": "bass.dll",
+        "url": "https://raw.githubusercontent.com/username/repo/main/moonloader/lib/bass.dll"
+      },
+      {
+        "name": "cjson.dll", 
+        "url": "https://raw.githubusercontent.com/username/repo/main/moonloader/lib/cjson.dll"
+      }
+    ]
+  },
+  "HUD": {
+    "name": "HUD",
+    "version": "2.1.0",
+    "description": "Interface utilisateur personnalisable",
+    "author": "LSChronicles Team",
+    "download_url": "https://raw.githubusercontent.com/username/repo/main/moonloader/lschronicles/HUD.lua",
+    "dependencies": [
+      {
+        "name": "imgui.lua",
+        "url": "https://raw.githubusercontent.com/username/repo/main/moonloader/lib/imgui.lua"
+      }
+    ]
+  },
+  "AntiCheat": {
+    "name": "AntiCheat",
+    "version": "1.5.2",
+    "description": "Protection basique contre les cheats",
+    "author": "LSChronicles Security",
+    "download_url": "https://raw.githubusercontent.com/username/repo/main/moonloader/lschronicles/AntiCheat.lua",
+    "dependencies": []
+  },
+  "Commands": {
+    "name": "Commands",
+    "version": "1.2.1",
+    "description": "Commandes personnalisées pour le serveur",
+    "author": "LSChronicles Team",
+    "download_url": "https://raw.githubusercontent.com/username/repo/main/moonloader/lschronicles/Commands.lua",
+    "dependencies": []
+  },
+  "CustomSounds": {
+    "name": "CustomSounds",
+    "version": "1.0.1",
+    "description": "Sons personnalisés pour différents événements",
+    "author": "LSChronicles Team", 
+    "download_url": "https://raw.githubusercontent.com/username/repo/main/moonloader/lschronicles/CustomSounds.lua",
+    "dependencies": [
+      {
+        "name": "connect.wav",
+        "url": "https://raw.githubusercontent.com/username/repo/main/moonloader/resource/sounds/connect.wav"
+      },
+      {
+        "name": "disconnect.wav", 
+        "url": "https://raw.githubusercontent.com/username/repo/main/moonloader/resource/sounds/disconnect.wav"
+      },
+      {
+        "name": "notification.wav",
+        "url": "https://raw.githubusercontent.com/username/repo/main/moonloader/resource/sounds/notification.wav"
+      }
+    ]
+  }
+}
